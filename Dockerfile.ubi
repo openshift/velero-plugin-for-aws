@@ -1,0 +1,12 @@
+FROM registry.access.redhat.com/ubi8/go-toolset:1.14.7 AS build
+ENV GOPATH=$APP_ROOT
+COPY . $APP_ROOT/src/velero-plugin-for-aws
+WORKDIR $APP_ROOT/src/velero-plugin-for-aws
+RUN CGO_ENABLED=0 GOOS=linux go build -v -o $APP_ROOT/bin/velero-plugin-for-aws -mod=mod ./velero-plugin-for-aws
+
+
+FROM registry.access.redhat.com/ubi8-minimal
+RUN mkdir /plugins
+COPY --from=build /opt/app-root/bin/velero-plugin-for-aws /plugins/
+USER nobody:nobody
+ENTRYPOINT ["/bin/bash", "-c", "cp /plugins/* /target/."]
