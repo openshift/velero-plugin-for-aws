@@ -154,7 +154,7 @@ func (b *VolumeSnapshotter) snapshotWhenAvailable(snapshotID string) (*types.Sna
 		if err != nil {
 			return true, err
 		}
-		if snapshot.State != "" {
+		if snapshot.State == "" {
 			snapshot = nil
 			logger.Debug("snapshot has empty state")
 			return true, errors.Errorf("Snapshot has empty state")
