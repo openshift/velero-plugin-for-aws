@@ -1,9 +1,14 @@
 FROM quay.io/konveyor/builder:ubi9-latest AS builder
-ENV GOPATH=$APP_ROOT
-COPY . $APP_ROOT/src/velero-plugin-for-aws
-WORKDIR $APP_ROOT/src/velero-plugin-for-aws
-RUN CGO_ENABLED=0 GOOS=linux go build -v -o $APP_ROOT/bin/velero-plugin-for-aws -mod=mod ./velero-plugin-for-aws
+ARG TARGETOS
+ARG TARGETARCH
 
+ENV GOPATH=$APP_ROOT
+
+COPY . $APP_ROOT/src/velero-plugin-for-aws
+
+WORKDIR $APP_ROOT/src/velero-plugin-for-aws
+
+RUN CGO_ENABLED=0 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} go build -v -o $APP_ROOT/bin/velero-plugin-for-aws -mod=mod ./velero-plugin-for-aws
 
 FROM registry.access.redhat.com/ubi9-minimal
 RUN mkdir /plugins
