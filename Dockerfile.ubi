@@ -1,4 +1,4 @@
-FROM quay.io/konveyor/builder:ubi9-v1.20 AS builder
+FROM quay.io/konveyor/builder:ubi9-v1.23 AS builder
 ENV GOPATH=$APP_ROOT
 COPY . $APP_ROOT/src/velero-plugin-for-aws
 WORKDIR $APP_ROOT/src/velero-plugin-for-aws
