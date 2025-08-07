@@ -25,8 +25,6 @@ import (
 	"os"
 	"regexp"
 	"strings"
-	"time"
-
 
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -34,16 +32,13 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/sets"
-	"k8s.io/apimachinery/pkg/util/wait"
 
 	veleroplugin "github.com/vmware-tanzu/velero/pkg/plugin/framework"
 )
 
 const (
-	regionKey                      = "region"
-	ebsCSIDriver                   = "ebs.csi.aws.com"
-	snapshotCreationTimeoutKey     = "snapshotCreationTimeout"
-	snapshotCreationTimeoutDefault = 60 * time.Minute
+	regionKey    = "region"
+	ebsCSIDriver = "ebs.csi.aws.com"
 )
 
 // iopsVolumeTypes is a set of AWS EBS volume types for which IOPS should
@@ -52,9 +47,8 @@ const (
 var iopsVolumeTypes = sets.NewString("io1", "io2")
 
 type VolumeSnapshotter struct {
-	log                     logrus.FieldLogger
-	ec2                     *ec2.Client
-	snapshotCreationTimeout time.Duration
+	log logrus.FieldLogger
+	ec2 *ec2.Client
 }
 
 func newVolumeSnapshotter(logger logrus.FieldLogger) *VolumeSnapshotter {
@@ -62,24 +56,13 @@ func newVolumeSnapshotter(logger logrus.FieldLogger) *VolumeSnapshotter {
 }
 
 func (b *VolumeSnapshotter) Init(config map[string]string) error {
-	if err := veleroplugin.ValidateVolumeSnapshotterConfigKeys(config, regionKey, credentialProfileKey, credentialsFileKey, enableSharedConfigKey, snapshotCreationTimeoutKey); err != nil {
+	if err := veleroplugin.ValidateVolumeSnapshotterConfigKeys(config, regionKey, credentialProfileKey, credentialsFileKey, enableSharedConfigKey); err != nil {
 		return err
 	}
 
 	region := config[regionKey]
 	credentialProfile := config[credentialProfileKey]
 	credentialsFile := config[credentialsFileKey]
-
-	// if config["snapshotCreationTimeout"] is empty, default to 60m; otherwise, parse it
-	var err error
-	if val := config[snapshotCreationTimeoutKey]; val == "" {
-		b.snapshotCreationTimeout = snapshotCreationTimeoutDefault
-	} else {
-		b.snapshotCreationTimeout, err = time.ParseDuration(val)
-		if err != nil {
-			return errors.Wrapf(err, "unable to parse value %q for config key %q (expected a duration string)", val, snapshotCreationTimeoutKey)
-		}
-	}
 
 	if region == "" {
 		return errors.Errorf("missing %s in aws configuration", regionKey)
@@ -96,11 +79,6 @@ func (b *VolumeSnapshotter) Init(config map[string]string) error {
 }
 
 func (b *VolumeSnapshotter) CreateVolumeFromSnapshot(snapshotID, volumeType, volumeAZ string, iops *int64) (volumeID string, err error) {
-	// wait for snapshot to be available first
-	snapshot, err := b.snapshotWhenAvailable(snapshotID)
-	if snapshot == nil {
-		return "", errors.Errorf("Snapshot %s is not available, err: %s", snapshotID, err)
-	}
 	// describe the snapshot so we can apply its tags to the volume
 	descSnapInput := &ec2.DescribeSnapshotsInput{
 		SnapshotIds: []string{snapshotID},
@@ -142,63 +120,6 @@ func (b *VolumeSnapshotter) CreateVolumeFromSnapshot(snapshotID, volumeType, vol
 	}
 
 	return *output.VolumeId, nil
-}
-
-func (b *VolumeSnapshotter) snapshotWhenAvailable(snapshotID string) (*types.Snapshot, error) {
-	logger := b.log.WithField("snapshotID", snapshotID)
-
-	var snapshot *types.Snapshot
-	err := wait.PollImmediate(time.Second, b.snapshotCreationTimeout, func() (bool, error) {
-		var err error
-		snapshot, err = b.getSnapshot(snapshotID)
-		if err != nil {
-			return true, err
-		}
-		if snapshot.State == "" {
-			snapshot = nil
-			logger.Debug("snapshot has empty state")
-			return true, errors.Errorf("Snapshot has empty state")
-		}
-		if snapshot.State == types.SnapshotStatePending {
-			snapshot = nil
-			logger.Debug("snapshot not yet ready for use")
-			return false, nil
-		}
-		if snapshot.State == types.SnapshotStateCompleted {
-			return true, nil
-		}
-		if snapshot.State == types.SnapshotStateError {
-			snapshot = nil
-			logger.Debug("snapshot is in 'error' state")
-			return true, errors.Errorf("Snapshot is in 'error' state")
-		}
-		unknownState := snapshot.State
-		snapshot = nil
-		return true, errors.Errorf("Snapshot is in unknown state '%s'", unknownState)
-	})
-
-	if err == wait.ErrWaitTimeout {
-		logger.Debug("timeout reached waiting for snapshot to be ready")
-	}
-
-	return snapshot, err
-}
-
-func (b *VolumeSnapshotter) getSnapshot(snapshotID string) (*types.Snapshot, error) {
-	// describe the snapshot so we can apply its tags to the volume
-	snapReq := &ec2.DescribeSnapshotsInput{
-		SnapshotIds: []string{snapshotID},
-	}
-
-	snapRes, err := b.ec2.DescribeSnapshots(context.Background(), snapReq)
-	if err != nil {
-		return nil, errors.WithStack(err)
-	}
-
-	if count := len(snapRes.Snapshots); count != 1 {
-		return nil, errors.Errorf("expected 1 snapshot from DescribeSnapshots for %s, got %v", snapshotID, count)
-	}
-	return &snapRes.Snapshots[0], nil
 }
 
 func (b *VolumeSnapshotter) GetVolumeInfo(volumeID, volumeAZ string) (string, *int64, error) {
