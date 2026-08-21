@@ -180,8 +180,10 @@ github.com/onsi/ginkgo/v2 v2.28.3 h1:4JvMdwtFU0imd8fHx25OJXoDMRexnf8v5NHKYSTTji4
 github.com/onsi/ginkgo/v2 v2.28.3/go.mod h1:+aXOY+vzZ5mu2iI2HpTZUPmM//oQfsNFX6gU9kNcA44=
 github.com/onsi/gomega v1.40.0 h1:Vtol0e1MghCD2ZVIilPDIg44XSL9l2QAn8ZNaljWcJc=
 github.com/onsi/gomega v1.40.0/go.mod h1:M/Uqpu/8qTjtzCLUA2zJHX9Iilrau25x1PdoSRbWh5A=
-github.com/openshift/velero v0.10.2-0.20260716151240-e2178e7e7c29 h1:csf6KeWbu01yvHl7aLjf3l0jnAmRyP+w3MveiorYnz8=
-github.com/openshift/velero v0.10.2-0.20260716151240-e2178e7e7c29/go.mod h1:1CKuSsX9EmPmtkIGpjkAC4hVJ22gOCu7kdwYMjEeyOI=
+github.com/openshift/velero v0.10.2-0.20260805134104-2091b09b93bb h1:FmyNqhhtdJ2vgIT6XZmIwcs9RHHKS1RuBWqI/S3nkis=
+github.com/openshift/velero v0.10.2-0.20260805134104-2091b09b93bb/go.mod h1:v0uPqPhsCaBvT3ObdH07qaHRnG3bE1D8fEaAWlUtWs4=
+github.com/openshift/velero/pkg/apis v0.0.0-20260805134104-2091b09b93bb h1:Wezb2zsAX8R0op1YLU0cMO78hA6ZiED4PYXMZZoadDo=
+github.com/openshift/velero/pkg/apis v0.0.0-20260805134104-2091b09b93bb/go.mod h1:zxtjtSupjpT6oOO48gvFhOpTl3SOAkCwuGG7BOxN3Fk=
 github.com/pingcap/errors v0.11.4 h1:lFuQV/oaUMGcD2tqt+01ROSmJs75VG1ToEOkZIZ4nE4=
 github.com/pingcap/errors v0.11.4/go.mod h1:Oi8TUi2kEtXXLMJk9l1cGmz20kV3TaQ0usTwv5KuLY8=
 github.com/pkg/diff v0.0.0-20210226163009-20ebb0f2a09e/go.mod h1:pJLUxLENpZxwdsKMEsNbx1VGcRFpLqf3715MtcvvzbA=
@@ -218,8 +220,6 @@ github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UV
 github.com/stretchr/testify v1.7.2/go.mod h1:R6va5+xMeoiuVRoj+gSkQ7d3FALtqAAGI1FQKckRals=
 github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=
 github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
-github.com/vmware-tanzu/velero/pkg/apis v0.0.0-20260713215154-c825e3c136bc h1:JwFvio/oC9GFNnTDf5w/Xp7dOh4iMAEQIqCaKMjv49k=
-github.com/vmware-tanzu/velero/pkg/apis v0.0.0-20260713215154-c825e3c136bc/go.mod h1:zxtjtSupjpT6oOO48gvFhOpTl3SOAkCwuGG7BOxN3Fk=
 github.com/x448/float16 v0.8.4 h1:qLwI1I70+NjRFUR3zs1JPUCgaCXSh3SW62uAKT1mSBM=
 github.com/x448/float16 v0.8.4/go.mod h1:14CWIYCyZA/cWjXOioeEpHeN/83MdbZDRQHoFcYsOfg=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
