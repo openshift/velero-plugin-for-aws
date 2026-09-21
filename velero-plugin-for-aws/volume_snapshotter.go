@@ -24,7 +24,6 @@ import (
 	"strings"
 	"time"
 
-
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"github.com/aws/smithy-go"
@@ -42,6 +41,7 @@ import (
 
 const (
 	regionKey                      = "region"
+	ebsKmsKeyIDKey                 = "ebsKmsKeyId"
 	ebsCSIDriver                   = "ebs.csi.aws.com"
 	snapshotCreationTimeoutKey     = "snapshotCreationTimeout"
 	snapshotCreationTimeoutDefault = 60 * time.Minute
@@ -55,6 +55,7 @@ var iopsVolumeTypes = sets.NewString("io1", "io2")
 type VolumeSnapshotter struct {
 	log                     logrus.FieldLogger
 	ec2                     *ec2.Client
+	ebsKmsKeyId             string
 	snapshotCreationTimeout time.Duration
 }
 
@@ -63,7 +64,7 @@ func newVolumeSnapshotter(logger logrus.FieldLogger) *VolumeSnapshotter {
 }
 
 func (b *VolumeSnapshotter) Init(config map[string]string) error {
-	if err := veleroplugin.ValidateVolumeSnapshotterConfigKeys(config, regionKey, credentialProfileKey, credentialsFileKey, enableSharedConfigKey, snapshotCreationTimeoutKey); err != nil {
+	if err := veleroplugin.ValidateVolumeSnapshotterConfigKeys(config, regionKey, credentialProfileKey, credentialsFileKey, enableSharedConfigKey, ebsKmsKeyIDKey, snapshotCreationTimeoutKey); err != nil {
 		return err
 	}
 

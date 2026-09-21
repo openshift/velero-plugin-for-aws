@@ -19,6 +19,7 @@ package main
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	v4 "github.com/aws/aws-sdk-go-v2/aws/signer/v4"
@@ -225,6 +226,11 @@ func TestValidChecksumAlg(t *testing.T) {
 		input    string
 		expected bool
 	}{
+		{
+			name:     "md5 is invalid",
+			input:    "Md5",
+			expected: false,
+		},
 		{
 			name:     "MD5 is valid",
 			input:    "MD5",
