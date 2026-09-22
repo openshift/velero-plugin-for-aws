@@ -1,6 +1,6 @@
 module github.com/vmware-tanzu/velero-plugin-for-aws
 
-go 1.25.8
+go 1.26.0
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.41.12
@@ -111,4 +111,4 @@ require (
 
 exclude github.com/kcp-dev/kcp/sdk v0.0.0-00010101000000-000000000000
 
-replace github.com/vmware-tanzu/velero => github.com/openshift/velero oadp-1.6
+replace github.com/vmware-tanzu/velero => github.com/openshift/velero v0.10.2-0.20260922232025-4365110ccbf8

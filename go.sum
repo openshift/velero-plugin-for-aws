@@ -163,8 +163,8 @@ github.com/onsi/ginkgo/v2 v2.28.3 h1:4JvMdwtFU0imd8fHx25OJXoDMRexnf8v5NHKYSTTji4
 github.com/onsi/ginkgo/v2 v2.28.3/go.mod h1:+aXOY+vzZ5mu2iI2HpTZUPmM//oQfsNFX6gU9kNcA44=
 github.com/onsi/gomega v1.40.0 h1:Vtol0e1MghCD2ZVIilPDIg44XSL9l2QAn8ZNaljWcJc=
 github.com/onsi/gomega v1.40.0/go.mod h1:M/Uqpu/8qTjtzCLUA2zJHX9Iilrau25x1PdoSRbWh5A=
-github.com/openshift/velero v0.10.2-0.20260904060022-e81ee90062e6 h1:VFIkD4G7ViOq3ZE8YLJ7pLOWRV+BTl19M5Uq9tyZIIw=
-github.com/openshift/velero v0.10.2-0.20260904060022-e81ee90062e6/go.mod h1:P9obU3E0hJrXBOeTZ0YUCcgFOcBthXYQlEmWlHlu0tc=
+github.com/openshift/velero v0.10.2-0.20260922232025-4365110ccbf8 h1:FDAMiAe3dg2Qu2a+qp8T1SWHCT2f4B5zpFsBjIlLaYk=
+github.com/openshift/velero v0.10.2-0.20260922232025-4365110ccbf8/go.mod h1:DheLnS57gNzCVvgswGkyUO92r9QHxy6Qlztx5NhlAlI=
 github.com/pingcap/errors v0.11.4 h1:lFuQV/oaUMGcD2tqt+01ROSmJs75VG1ToEOkZIZ4nE4=
 github.com/pingcap/errors v0.11.4/go.mod h1:Oi8TUi2kEtXXLMJk9l1cGmz20kV3TaQ0usTwv5KuLY8=
 github.com/pkg/diff v0.0.0-20210226163009-20ebb0f2a09e/go.mod h1:pJLUxLENpZxwdsKMEsNbx1VGcRFpLqf3715MtcvvzbA=
