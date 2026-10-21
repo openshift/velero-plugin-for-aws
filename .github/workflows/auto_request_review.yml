@@ -8,6 +8,8 @@ on:
 jobs:
   auto-request-review:
     name: Auto Request Review
+    # Reviewers in .github/auto-assignees.yml are upstream maintainers, not collaborators of this repo, so the job fails here.
+    if: github.repository == 'velero-io/velero-plugin-for-aws'
     runs-on: ubuntu-latest
     steps:
       - name: Request a PR review based on files types/paths, and/or groups the author belongs to
