@@ -1,15 +1,17 @@
 approvers:
-  - jwmatthews
-  - PrasadJoshi12
-  - sseago
-  - shawn-hurley
+  - akarol
   - dymurray
-  - shubham-pampattiwar
-  - kaovilai
   - joeavaikath
-reviewers:
+  - jwmatthews
+  - kaovilai
   - PrasadJoshi12
-  - sseago
+  - shawn-hurley
   - shubham-pampattiwar
-  - kaovilai
+  - sseago
+reviewers:
+  - akarol
   - joeavaikath
+  - kaovilai
+  - PrasadJoshi12
+  - shubham-pampattiwar
+  - sseago
